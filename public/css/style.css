@@ -1,0 +1,92 @@
+#contraste{
+	padding: 10px;
+}
+[contenteditable=true]:empty:before{
+	content: attr(placeholder);
+	display: block;
+	color: #ccc;
+}
+.cont-editor{
+	display: flex;
+	flex-wrap: wrap;
+}
+.cont-editor .cont-edit{
+	position: relative;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 70%;
+	margin: 30px 50px;
+	padding: 15px;
+	border: 2px solid black;
+	height: auto;
+	min-height: 40vh;
+	max-height: 50vh;
+	overflow-y: auto;
+}
+.cont-editor .cont-edit .edit-text{
+	border: 2px dashed transparent;
+	outline: none;
+	padding: 0;
+	transition-duration: 0.25s;
+	height: auto;
+	cursor: text;
+}
+.cont-editor .cont-edit .edit-text.error{
+	border-color: red;
+}
+.cont-editor .cont-edit img.edit-text{
+	display: block;
+}
+.cont-editor .cont-edit .edit-text:hover,
+.cont-editor .cont-edit .edit-text:focus{
+	border: 2px dashed cadetblue;
+	padding: 5px;
+}
+.cont-editor .cont-edit-controls{
+	position: relative;
+}
+.cont-editor .cont-edit-controls .each-editor-text{
+	position: absolute;
+	top: 0;
+	/*top: -15%;*/
+	right: 0;
+	transition-duration: 0.25s;
+	display: flex;
+}
+.cont-editor .cont-edit-controls:hover .each-editor-text{
+	top: 0;
+}
+.cont-editor .cont-edit-controls .each-editor-text div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.cont-editor .cont-edit-controls .each-editor-text div a{
+	padding: 10px;
+	background: #c6c6c6;
+	color: black;
+}
+.cont-editor .cont-edit .each-editor-text div a:hover{
+	background: black;
+	color: #c6c6c6;
+}
+
+.item-move{
+	position: relative;
+}
+.item-move .btns-options{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	display: flex;
+}
+.item-move .btns-options .icon-move{
+} 
+
+#options .item-move{
+	cursor: move;
+}
+#options .item-move .btns-options{
+	visibility: hidden;
+}
