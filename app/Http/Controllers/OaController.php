@@ -64,7 +64,7 @@ class OaController extends Controller
 
         $oa = Oa::create($request->all());
 
-        return redirect()->route('oas.edit', $oa->id)->with('info', 'Oa creado!');
+        return redirect()->route('oas.edit', $oa)->with('info', 'Oa creado!');
     }
 
     /**
@@ -87,7 +87,6 @@ class OaController extends Controller
      */
     public function edit(Oa $oa)
     {
-        dd($oa);
         return 'Edit';
     }
 

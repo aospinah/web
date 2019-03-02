@@ -13,7 +13,6 @@ class Oa extends Model
 		'oa_description',
 		'oa_user_id',
 		'oa_tax_id',
-		'oa_top_id',
 		'oa_tar_id'
     ];
 
