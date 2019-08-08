@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('oas', 'OaController');
+Route::get('preview/{prev}', 'OaController@preview')->name('preview');
 
 Route::get('/getTopics/{taxonomy}', 'TopicController@getByTax')->name('gettopics');
 Route::get('/getobjective/{topic}', 'TopicController@getObjective')->name('getobjective');

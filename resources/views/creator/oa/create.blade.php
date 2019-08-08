@@ -2,16 +2,74 @@
 
 @section('styles')
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	{{-- <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script> --}}
+	{{-- <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/balloon/ckeditor.js"></script> --}}
+	{{-- <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/balloon-block/ckeditor.js"></script> --}}
+	{{-- <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/decoupled-document/ckeditor.js"></script> --}}
 @endsection
 
 @section('content')
-	<div class="mb-5">
-		<h1>Crear OA</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="mb-5 mt-2">
+					<h1>Crear OA</h1>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div>
-		{!! Form::open(['route' => 'oas.store' ]) !!}
-			@include('creator.oa.partials.form')
-		{!! Form::close() !!}
+	<div class="container">
+		<div class="row">
+			<div class="col-9">
+				{!! Form::open(['route' => 'oas.store', 'id' => 'regForm' ]) !!}
+					<div style="text-align:center;margin-top:40px;">
+						<div style="display: inline-block;">
+							<span class="step"></span>
+							<p>Etapa 1<br>Caracterización</p>
+						</div>
+						<div style="display: inline-block;">
+							<span class="step"></span>
+							<p>Etapa 2<br>Diseño</p>
+						</div>
+						<div style="display: inline-block;">
+							<span class="step"></span>
+							<p>Etapa 3<br>Visualización y Verificación</p>
+						</div>
+						<div style="display: inline-block;">
+							<span class="step"></span>
+							<p>Etapa 4<br>Evaluación</p>
+						</div>
+					</div>
+					@include('creator.oa.partials.form')
+				{!! Form::close() !!}
+			</div>
+			<div class="col-3" style="background: #fff; padding: 40px 15px;">
+				<h2 style="text-align: center;">Ayudas</h2>
+				<div style="position: sticky; top: 10px;">
+					<button class="accordion">Etapa 1</button>
+					<div class="panel">
+						<p>Describir los aspectos educativos y contextuales del recurso que se va a crear.</p>
+						<p><b>Tema:</b> Temática del recurso educativo.</p>
+						<p><b>Objetivo educativo:</b> Intención de aprendizaje, lo que el estudiante va a adquirir al final del recurso educativo.</p>
+						<p><b>Población objetivo:</b> Discapacidad presentada en la población.</p>
+					</div>
+
+					<button class="accordion">Etapa 2</button>
+					<div class="panel">
+						<p>Forma y estructura del contenido del recurso educativo.</p>
+					</div>
+
+					<button class="accordion">Etapa 3</button>
+					<div class="panel">
+						<p>Representar y mostrar el etapa de diseño.</p>
+					</div>
+					<button class="accordion">Etapa 4</button>
+					<div class="panel">
+						<p>Verificación de la eficacia de la metodologia.</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 @endsection
 
@@ -21,7 +79,8 @@
 @endsection
 
 @section('script')
-	<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+	@parent
+	{{-- <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script> --}}
 
 	<script>
 		window.addEventListener('load', function(){
@@ -88,7 +147,8 @@
 		}, false)
 	</script>
 
-	<script type="text/javascript">
+	{{-- SORTABLE --}}
+	{{-- <script type="text/javascript">
 		var el = document.getElementById('text-save')
 		var options = document.getElementById('options')
 		var selectedText = null
@@ -202,7 +262,7 @@
 
 			console.log(pastedData)
 		}, false)
-	</script>
+	</script> --}}
 	
 	
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Oa;
 use App\Taxonomy;
+use App\Topic;
 use App\Target;
 use App\User;
 use Auth;
@@ -41,6 +42,7 @@ class OaController extends Controller
         $targets = Target::all();
         $taxs = [];
         $tars = [];
+        $tops = [];
 
         foreach($taxonomies as $tax):
             $taxs[$tax->tax_id] = $tax->tax_name;
@@ -50,7 +52,7 @@ class OaController extends Controller
             $tars[$tar->tar_id] = $tar->tar_name . ' ' . $tar->tar_description;
         endforeach;
         
-        return view('creator.oa.create', compact('taxs', 'tars', 'taxonomies'));
+        return view('creator.oa.create', compact('taxs', 'tars', 'taxonomies', 'tops'));
     }
 
     /**
@@ -76,7 +78,7 @@ class OaController extends Controller
     public function show(Oa $oa)
     {
         //
-        return 'Show';
+        return view('creator.oa.show', compact('oa'));
     }
 
     /**
@@ -87,7 +89,28 @@ class OaController extends Controller
      */
     public function edit(Oa $oa)
     {
-        return 'Edit';
+        $taxonomies = Taxonomy::all();
+        $topic_list = Topic::where('top_tax_id', $oa->oa_tax_id)->get();
+        $topic_act = Topic::where('top_id', $oa->oa_top_id)->first();
+        $targets = Target::all();
+        $target_act = Target::where( 'tar_id', $oa->oa_tar_id )->first();
+
+        $taxs = [];
+        $tars = [];
+
+        foreach($taxonomies as $tax):
+            $taxs[$tax->tax_id] = $tax->tax_name;
+        endforeach;
+
+        foreach($targets as $tar):
+            $tars[$tar->tar_id] = $tar->tar_name . ' ' . $tar->tar_description;
+        endforeach;
+
+        foreach($topic_list as $tl):
+            $tops[$tl->top_id] = $tl->top_name . ' (' . $tl->top_grade . ')';
+        endforeach;
+        
+        return view('creator.oa.edit', compact('taxs', 'tars', 'taxonomies', 'oa', 'target_act', 'tops', 'topic_act'));
     }
 
     /**
@@ -99,8 +122,11 @@ class OaController extends Controller
      */
     public function update(Request $request, Oa $oa)
     {
-        //
-        return 'Update';
+        $oa->update($request->all());
+        if(request()->ajax()){
+            return response()->json($oa);
+        }
+        return back();
     }
 
     /**
@@ -111,7 +137,13 @@ class OaController extends Controller
      */
     public function destroy(Oa $oa)
     {
-        //
+        // Oa::where('oa_id', $oa->oa_id)
+        //    ->delete();
         return 'Destroy';
+    }
+
+    public function preview(Request $request, $prev){
+        $oa = Oa::where('oa_id', $prev)->first();
+        return view('creator.oa.prev', compact('oa'));
     }
 }
