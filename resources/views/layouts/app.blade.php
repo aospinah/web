@@ -97,9 +97,10 @@
     </div>
     @section('script')
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/intro.min.js') }}"></script>
+        <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
         <script src="https://cdn.tiny.cloud/1/6yk3lqem6rrq9tvbvab7vop10pualt3ng4v3r3vmxv28qtt4/tinymce/5/tinymce.min.js"></script>
         <script>
             tinymce.init({
@@ -315,6 +316,8 @@
                     let urlSave = document.querySelector('#regForm').getAttribute('action');
                     let dataForm = new FormData( this );
                     let token = document.querySelector('input[name="_token"]').value;
+
+                    $('#oa_description').attr( 'value', $('#cont-text-save').html() );
                     
                     // fetch(urlSave,{
                     //     method: 'PUT',
@@ -345,14 +348,133 @@
                             console.log('Before');
                         },
                         success: function(response){
-                            console.log(response);
                             jQuery('.preview').html(response.oa_description);
+                            jQuery('.preview .edit-text').attr('contenteditable', 'false');
+                            jQuery('.preview .btns-options').remove();
                             jQuery('.preview').css('background', response.oa_back);
                             jQuery('#url_verify').attr('href', document.querySelector('#base-url').value + '/preview/' + response.oa_id);
                         }
                     });
                 });
             });
+        </script>
+        {{-- SORTABLE --}}
+        <script type="text/javascript">
+            var el = document.getElementById('text-save');
+            var options = document.getElementById('options');
+            var selectedText = null;
+
+            new Sortable.create(options, {
+                group: {
+                    name: 'shared',
+                    pull: 'clone',
+                    put: false // Do not allow items to be put into this list
+                },
+                onClone: function (evt) {
+                    var origEl = evt.item;
+                    var cloneEl = evt.clone;
+
+                    let dataPlaceholder = origEl.children[1].getAttribute("data-placeholder")
+                    let dataClass = origEl.children[1].getAttribute("data-class")
+
+                    for (let i = origEl.children[1].attributes.length - 1; i >= 0; i--) {
+                        origEl.children[1].removeAttribute(origEl.children[1].attributes[i].name)
+                    }
+
+                    origEl.children[1].innerHTML = ''
+                    origEl.children[1].setAttribute('placeholder', dataPlaceholder)
+                    origEl.children[1].setAttribute('class', dataClass)
+
+                    origEl.children[1].setAttribute('contenteditable', 'true')
+
+                    origEl.children[1].addEventListener('click', function(elem){
+                        selectedText = origEl.children[1]
+                    }, false)
+                },
+                animation: 150,
+                sort: false, // To disable sorting: set sort to false
+            });
+
+            new Sortable.create(el, {
+                group: 'shared',
+                animation: 150
+            });
+
+            window.addEventListener('load', function(){
+                const deleteBtn = document.querySelectorAll(".icon-delete")
+                const textEdit = document.querySelectorAll(".edit-text")
+
+                deleteBtn.forEach(function(element){
+                    element.addEventListener('click', function(e){
+                        e.preventDefault()
+                        alert('Delete')
+                        e.target.parentElement.parentElement.remove()
+                    })
+                })
+            }, false)
+
+            // op-text click
+            let opText = document.getElementsByClassName('op-text')
+            for(let i = 0; i < opText.length; i++){         
+                opText[i].addEventListener('click', function(e){
+
+                    e.preventDefault()
+
+                    selectedText.focus()
+
+                    let wSelected = opText[i].getAttribute('data-w')
+                    let opSelected = opText[i].getAttribute('data-option')
+
+                    if(wSelected == 'align'){
+
+                        selectedText.style.textAlign = opSelected
+
+                    }else if(wSelected == 'weight'){
+
+                        document.execCommand(opSelected)
+
+                    }
+                }, false)
+            }
+
+            // Background Change
+
+            let selectBack = document.getElementById('contraste')
+
+            for (let i = selectBack.options.length - 1; i >= 0; i--) {
+                selectBack.options[i].style.backgroundColor = selectBack.options[i].getAttribute('data-bg')
+                selectBack.options[i].style.color = selectBack.options[i].getAttribute('data-color')
+            }
+
+            selectBack.addEventListener('change', () => {
+
+                let indexSelected = selectBack.selectedIndex
+                let optionTag = selectBack.options
+
+                let dataBgOption = optionTag[indexSelected].getAttribute('data-bg')
+                let dataCoOption = optionTag[indexSelected].getAttribute('data-color')
+
+                $('#oa_back').attr( 'value', dataBgOption );
+
+                selectBack.style.backgroundColor = dataBgOption
+                selectBack.style.color = dataCoOption
+
+                let elementBack = document.getElementById('text-save')
+                elementBack.style.backgroundColor = dataBgOption
+                elementBack.style.color = dataCoOption
+
+            }, false)
+
+            document.getElementById('text-save').addEventListener('paste', (e) => {
+                e.preventDefault()
+
+                let clipboardData = e.clipboardData || window.clipboardData
+                let pastedData = clipboardData.getData('text/plain')
+
+                document.execCommand('insertHTML', false, pastedData)
+
+                console.log(pastedData)
+            }, false)
         </script>
         
     @show
