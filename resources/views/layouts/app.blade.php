@@ -7,14 +7,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Macrea</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    {{-- <link rel="dns-prefetch" href="https://fonts.gstatic.com"> --}}
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -32,7 +31,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Laravel') }} --}}
-                    Inicio
+                    Macrea
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -93,15 +92,19 @@
         {{-- <main class="py-4 container"> --}}
             @yield('content')
         {{-- </main> --}}
-        <footer style="margin-top: 50px; height: 100px; background: #ccc; width: 100%;"></footer>
+        <footer class="d-flex justify-content-center pt-3 pb-3" style="margin-top: 50px; background: #ccc; width: 100%;">
+            <img style="width: 200px;" src="{{ asset('img/logo-unal.png') }}" alt="">
+        </footer>
     </div>
     @section('script')
         <!-- Scripts -->
         {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/intro.min.js') }}"></script>
-        <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
-        <script src="https://cdn.tiny.cloud/1/6yk3lqem6rrq9tvbvab7vop10pualt3ng4v3r3vmxv28qtt4/tinymce/5/tinymce.min.js"></script>
+        <script src="{{ asset('js/Sortable.js') }}"></script>
+        <script src="{{ asset('js/popper.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/tinymce.min.js') }}"></script>
         <script>
             tinymce.init({
                 setup: (editor) => {
@@ -374,22 +377,24 @@
                     var origEl = evt.item;
                     var cloneEl = evt.clone;
 
-                    let dataPlaceholder = origEl.children[1].getAttribute("data-placeholder")
-                    let dataClass = origEl.children[1].getAttribute("data-class")
+                    // if( !origEl.hasClass('image') ){
+                        let dataPlaceholder = origEl.children[1].getAttribute("data-placeholder")
+                        let dataClass = origEl.children[1].getAttribute("data-class")
 
-                    for (let i = origEl.children[1].attributes.length - 1; i >= 0; i--) {
-                        origEl.children[1].removeAttribute(origEl.children[1].attributes[i].name)
-                    }
+                        for (let i = origEl.children[1].attributes.length - 1; i >= 0; i--) {
+                            origEl.children[1].removeAttribute(origEl.children[1].attributes[i].name)
+                        }
 
-                    origEl.children[1].innerHTML = ''
-                    origEl.children[1].setAttribute('placeholder', dataPlaceholder)
-                    origEl.children[1].setAttribute('class', dataClass)
+                        origEl.children[1].innerHTML = ''
+                        origEl.children[1].setAttribute('placeholder', dataPlaceholder)
+                        origEl.children[1].setAttribute('class', dataClass)
 
-                    origEl.children[1].setAttribute('contenteditable', 'true')
+                        origEl.children[1].setAttribute('contenteditable', 'true')
 
-                    origEl.children[1].addEventListener('click', function(elem){
-                        selectedText = origEl.children[1]
-                    }, false)
+                        origEl.children[1].addEventListener('click', function(elem){
+                            selectedText = origEl.children[1]
+                        }, false)
+                    // }
                 },
                 animation: 150,
                 sort: false, // To disable sorting: set sort to false
@@ -401,8 +406,9 @@
             });
 
             window.addEventListener('load', function(){
-                const deleteBtn = document.querySelectorAll(".icon-delete")
-                const textEdit = document.querySelectorAll(".edit-text")
+                const deleteBtn = document.querySelectorAll(".icon-delete");
+                const insertImg = document.querySelector("#insert-img");
+                const textEdit = document.querySelectorAll(".edit-text");
 
                 deleteBtn.forEach(function(element){
                     element.addEventListener('click', function(e){
@@ -411,6 +417,23 @@
                         e.target.parentElement.parentElement.remove()
                     })
                 })
+
+                insertImg.addEventListener('click', function(e){
+                    e.preventDefault();
+
+                    const inputAlt = document.querySelector('#txt-alt');
+                    const inputImg = document.querySelector('#input-img');
+
+                    if( inputImg.files.length == 0 ){
+                        alert('No cargaste una imagen');
+                    }else{
+                        if( inputAlt.value == null || inputAlt.value.length == 0 || /^\s*$/.test(inputAlt.value) ){
+                            alert('No puede estar vacío');
+                        }else{
+                            const txtSave = document.querySelector('#text-save');
+                        }
+                    }
+                });
             }, false)
 
             // op-text click

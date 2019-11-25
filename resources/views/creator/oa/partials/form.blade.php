@@ -92,7 +92,34 @@
 					<span class="fa fa-arrows-alt icon-move" aria-hidden="true"></span>
 					<span class="fa fa-times icon-delete"></span>
 				</div>
-				<img class="drag-text" src="{{ asset('img/a.png') }}" draggable="true" id="drag-img" data-placeholder="Imagen" data-class="edit-text image" />
+				<img class="drag-text image" src="{{ asset('img/a.png') }}" draggable="true" id="drag-img" data-placeholder="Imagen" data-class="edit-text image" />
+			</div>
+			<div>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImg">Insertar Imagen</button>
+				<div class="modal fade" id="modalImg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Seleccionar imagen</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<input class="form-control" id="input-img" type="file">
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" id="txt-alt" placeholder="Texto alternativo" />
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+								<button type="button" class="btn btn-primary" id="insert-img">Insertar Imagen</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<select name="contraste" id="contraste">
 				<option value="1" class="option-data" data-bg="white" data-color="black">Blanco / Negro</option>

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Escritorio</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <a href="{{ route('oas.index') }}" class="btn btn-primary btn-lg">Ver OAs</a>
+                    <a href="{{ route('oas.create') }}" class="btn btn-success btn-lg">Crear OAs</a>
                 </div>
             </div>
         </div>

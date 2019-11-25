@@ -9,7 +9,7 @@
         </div>
         <div class="row cont_info_sis mb-4">
             <div class="col-6">
-                <h1 class="text-center title_msg">¡Crea objetos de aprendizaje accesibles sin ser experto!</h1>
+                <h1 class="text-center title_msg">MACREA<br>¡Crea objetos de aprendizaje accesibles sin ser experto!</h1>
             </div>
             <div class="col-6"></div>
         </div>
