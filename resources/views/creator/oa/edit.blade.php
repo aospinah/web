@@ -14,7 +14,8 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="mb-5 mt-2">
-					<h1 class="float-left mr-4">Editar OA</h1>
+					<a href="{{ url()->previous() }}" class="btn btn-primary float-left"><i class="fa fa-chevron-left"></i></a>
+					<h1 class="float-left ml-4 mr-4">Editar OA</h1>
 					<a href="{{ route('oas.destroy', $oa->oa_id) }}" class="btn btn-danger float-left">Eliminar</a>
 				</div>
 			</div>

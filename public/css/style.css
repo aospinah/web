@@ -1,3 +1,6 @@
+.section_core{
+	margin-top: 50px;
+}
 .title_msg{
 	font-size: 2.5rem;
 }
@@ -35,20 +38,25 @@
 	display: flex;
 	flex-wrap: wrap;
 }
+.cont-editor #cont-text-save{
+	padding: 30px 0;
+}
 .cont-editor .cont-edit{
 	position: relative;
 	flex-grow: 0;
 	flex-shrink: 0;
 	flex-basis: 70%;
-	margin: 30px 50px;
+	margin: 0;
 	padding: 15px;
 	border: 2px solid black;
 	height: auto;
 	min-height: 40vh;
 	max-height: 50vh;
 	overflow-y: auto;
+	font-family: Arial;
 }
 .cont-editor .cont-edit .edit-text{
+	font-size: 12pt;
 	border: 2px dashed transparent;
 	outline: none;
 	padding: 0;
@@ -101,16 +109,33 @@
 }
 .item-move .btns-options{
 	position: absolute;
-	top: 50%;
-	right: 10px;
+	top: 0;
+	right: 0;
 	transform: translateY(-50%);
 	display: flex;
 }
 .item-move .btns-options .icon-move{
 } 
-
+.cont_all_options{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.cont_all_options > div{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex: 1;
+}
+#options{
+	
+}
+#options *{
+	margin: 0;
+}
 #options .item-move{
 	cursor: move;
+	position: relative;
 }
 #options .item-move .btns-options{
 	visibility: hidden;
@@ -129,10 +154,6 @@ body {
 #regForm {
   background-color: #ffffff;
   padding: 40px;
-}
-
-h1 {
-  text-align: center;  
 }
 
 input {

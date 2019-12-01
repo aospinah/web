@@ -89,9 +89,9 @@
             </div>
         </nav>
 
-        {{-- <main class="py-4 container"> --}}
+        <main class="section_core">
             @yield('content')
-        {{-- </main> --}}
+        </main>
         <footer class="d-flex justify-content-center pt-3 pb-3" style="margin-top: 50px; background: #ccc; width: 100%;">
             <img style="width: 200px;" src="{{ asset('img/logo-unal.png') }}" alt="">
         </footer>
@@ -215,7 +215,7 @@
                 document.getElementById("prevBtn").style.display = "inline";
               }
               if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Enviar";
+                document.getElementById("nextBtn").innerHTML = "Finalizar";
                 document.getElementById("nextBtn").classList.remove("saveCont");
               } else if( n == 1 ) {
                 document.getElementById("nextBtn").innerHTML = "Guardar y Continuar";
@@ -243,7 +243,8 @@
                 // if you have reached the end of the form...
                 if (currentTab >= x.length) {
                     // ... the form gets submitted:
-                    document.getElementById("regForm").submit();
+                    // document.getElementById("regForm").submit();
+                    window.location.href = $('#redirect').val();
                     return false;
                 }
                 if(currentTab == 2){
@@ -317,6 +318,7 @@
                 document.getElementById('regForm').addEventListener("submit", function(e){
                     e.preventDefault();
                     let urlSave = document.querySelector('#regForm').getAttribute('action');
+                    let urlMethod = document.querySelector('#regForm').getAttribute('method');
                     let dataForm = new FormData( this );
                     let token = document.querySelector('input[name="_token"]').value;
 
@@ -339,7 +341,7 @@
 
                     jQuery.ajax({
                         url: urlSave,
-                        type: 'PUT',
+                        type: urlMethod,
                         data: jQuery('#regForm').serializeArray(),
                         // processData: false,
                         // contentType: false,
@@ -418,6 +420,40 @@
                     })
                 })
 
+                function encodeImagetoBase64(element, inputAlt) {
+                    var file = element;
+                    var reader = new FileReader();
+
+                    reader.onloadend = function() {
+                        const txtSave = document.querySelector('#text-save');
+                        let conItem = document.createElement('div');
+                        let conOpt = document.createElement('div');
+                        let conSpanEdit = document.createElement('span');
+                        let conSpanMove = document.createElement('span');
+                        let conSpanDelete = document.createElement('span');
+                        let conImg = document.createElement('img');
+
+                        conItem.setAttribute('class', 'item-move');
+                        conItem.setAttribute('draggable', 'false');
+                        conOpt.setAttribute('class', 'btns-options');
+                        conSpanEdit.setAttribute('class', 'fa fa-edit icon-edit');
+                        conSpanMove.setAttribute('class', 'fa fa-arrows-alt icon-move');
+                        conSpanDelete.setAttribute('class', 'fa fa-times icon-delete');
+
+                        conImg.setAttribute('src', reader.result);
+                        conImg.setAttribute('alt', inputAlt.value );
+
+
+                        // conOpt.appendChild(conSpanEdit);
+                        conOpt.appendChild(conSpanMove);
+                        conOpt.appendChild(conSpanDelete);
+                        conItem.appendChild(conOpt);
+                        conItem.appendChild(conImg);
+                        txtSave.appendChild(conItem);
+                    }
+                    reader.readAsDataURL(file);
+                }
+
                 insertImg.addEventListener('click', function(e){
                     e.preventDefault();
 
@@ -427,10 +463,18 @@
                     if( inputImg.files.length == 0 ){
                         alert('No cargaste una imagen');
                     }else{
-                        if( inputAlt.value == null || inputAlt.value.length == 0 || /^\s*$/.test(inputAlt.value) ){
-                            alert('No puede estar vacío');
+                        if(inputImg.files[0].size <= 102400){
+                            if( inputAlt.value == null || inputAlt.value.length == 0 || /^\s*$/.test(inputAlt.value) ){
+                                alert('El texto alternativo no puede estar vacío');
+                            }else{
+                                encodeImagetoBase64(inputImg.files[0], inputAlt);
+                                $('#modalImg').modal('hide');
+                                inputAlt.value = "";
+                                inputImg.value = "";
+                            }
                         }else{
-                            const txtSave = document.querySelector('#text-save');
+                            alert("Archivo demasiado grande!");
+                            this.value = "";
                         }
                     }
                 });
@@ -462,7 +506,7 @@
 
             // Background Change
 
-            let selectBack = document.getElementById('contraste')
+            let selectBack = document.getElementById('contraste');
 
             for (let i = selectBack.options.length - 1; i >= 0; i--) {
                 selectBack.options[i].style.backgroundColor = selectBack.options[i].getAttribute('data-bg')
@@ -477,7 +521,7 @@
                 let dataBgOption = optionTag[indexSelected].getAttribute('data-bg')
                 let dataCoOption = optionTag[indexSelected].getAttribute('data-color')
 
-                $('#oa_back').attr( 'value', dataBgOption );
+                $('#oa_back').attr( 'value', selectBack.value );
 
                 selectBack.style.backgroundColor = dataBgOption
                 selectBack.style.color = dataCoOption
@@ -488,8 +532,32 @@
 
             }, false)
 
+            let selectFont = document.getElementById('oa_font');
+
+            selectFont.addEventListener('change', () => {
+                let elementBack = document.getElementById('text-save');
+                elementBack.style.fontFamily = selectFont.value;
+            });
+
+            var elementToEdit = null;
+
+            $('.icon-edit').click( function(e){
+                elementToEdit = $(this).parent().siblings();
+            });
+
+            let selectPt = document.getElementById('pt');
+            let selectAlign = document.getElementById('align');
+
+            let acceptChanges = document.getElementById('accept-change');
+
+            acceptChanges.addEventListener('click', () => {
+                elementToEdit.css('text-align', selectAlign.value);
+                elementToEdit.css('font-size', selectPt.value);
+                $('#modalEach').modal('hide');
+            });
+
             document.getElementById('text-save').addEventListener('paste', (e) => {
-                e.preventDefault()
+                e.preventDefault();
 
                 let clipboardData = e.clipboardData || window.clipboardData
                 let pastedData = clipboardData.getData('text/plain')

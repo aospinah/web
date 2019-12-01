@@ -137,9 +137,8 @@ class OaController extends Controller
      */
     public function destroy(Oa $oa)
     {
-        // Oa::where('oa_id', $oa->oa_id)
-        //    ->delete();
-        return 'Destroy';
+        $oa->delete();
+        return redirect()->route('oas.index');
     }
 
     public function preview(Request $request, $prev){

@@ -21,7 +21,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-9">
-				{!! Form::open(['route' => 'oas.store', 'id' => 'regForm' ]) !!}
+				{!! Form::open(['route' => 'oas.store', 'method' => 'POST', 'id' => 'regForm' ]) !!}
 					<div style="text-align:center;margin-top:40px;">
 						<div style="display: inline-block;">
 							<span class="step"></span>

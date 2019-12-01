@@ -12,6 +12,7 @@ class Oa extends Model
 		'oa_path',
 		'oa_description',
 		'oa_back',
+		'oa_font',
 		'oa_user_id',
 		'oa_tax_id',
 		'oa_top_id',
