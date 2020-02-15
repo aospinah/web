@@ -131,7 +131,7 @@
 	<h1>Visualización y Verificación</h1>
 	<div style="position: relative;">
 		<input type="hidden" id="base-url" value="{{ url('/') }}">
-		<a href="http://www.acessibilidade.gov.pt/accessmonitor/" id="url_verify" target="_blank" class="btn btn-success" style="position: absolute; top: 1px; right: 1px;">Verificar</a>
+		<a href="https://www.tawdis.net/" id="url_verify" target="_blank" class="btn btn-success" style="position: absolute; top: 1px; right: 1px;">Verificar</a>
 		<div class="preview" style="border: 1px solid #000; border-radius: 5px; padding: 15px; margin-bottom: 20px;"></div>
 	</div>
 </div>

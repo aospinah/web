@@ -297,6 +297,15 @@
             }
         </script>
         <script>
+            function copiarAlPortapapeles(id_elemento) {
+                var aux = document.createElement("input");
+                aux.setAttribute("value", document.getElementById(id_elemento).value);
+                document.body.appendChild(aux);
+                aux.select();
+                document.execCommand("copy");
+                document.body.removeChild(aux);
+                alert('La URL del objeto se copió al portapapeles.');
+            }
             window.addEventListener('load', function(){
                 var acc = document.getElementsByClassName("accordion");
                 var i;
@@ -315,6 +324,9 @@
                     }
                     acc[0].click();
                 }
+                document.getElementById('url_verify').addEventListener('click', function(){
+                    copiarAlPortapapeles('base-url');
+                });
                 document.getElementById('regForm').addEventListener("submit", function(e){
                     e.preventDefault();
                     let urlSave = document.querySelector('#regForm').getAttribute('action');
@@ -357,7 +369,8 @@
                             jQuery('.preview .edit-text').attr('contenteditable', 'false');
                             jQuery('.preview .btns-options').remove();
                             jQuery('.preview').css('background', response.oa_back);
-                            jQuery('#url_verify').attr('href', document.querySelector('#base-url').value + '/preview/' + response.oa_id);
+                            jQuery('#base-url').attr('value', document.querySelector('#base-url').value + '/preview/' + response.oa_id)
+                            // jQuery('#url_verify').attr('href', document.querySelector('#base-url').value + '/preview/' + response.oa_id);
                         }
                     });
                 });

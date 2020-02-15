@@ -49,6 +49,11 @@ class User extends Authenticatable
      */
     public function getAuthPassword()
     {
-        return $this->password;
+        return $this->user_password;
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->user_email;
     }
 }
