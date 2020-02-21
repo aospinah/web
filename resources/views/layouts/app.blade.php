@@ -153,7 +153,7 @@
                 toolbar: 'a11ycheck fontselect fontsizeselect image styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code toogleColor casechange forecolor backcolor',
                 a11ychecker_allow_decorative_images: true,
                 image_uploadtab: true,
-                image_title: true, 
+                image_title: true,
                 automatic_uploads: true,
                 file_picker_types: 'image',
                 file_picker_callback: function(cb, value, meta) {
@@ -319,7 +319,7 @@
                           panel.style.maxHeight = null;
                         } else {
                           panel.style.maxHeight = panel.scrollHeight + "px";
-                        } 
+                        }
                       });
                     }
                     acc[0].click();
@@ -335,7 +335,7 @@
                     let token = document.querySelector('input[name="_token"]').value;
 
                     $('#oa_description').attr( 'value', $('#cont-text-save').html() );
-                    
+
                     // fetch(urlSave,{
                     //     method: 'PUT',
                     //     body: JSON.stringify( jQuery('#regForm').serializeArray() ),
@@ -369,8 +369,9 @@
                             jQuery('.preview .edit-text').attr('contenteditable', 'false');
                             jQuery('.preview .btns-options').remove();
                             jQuery('.preview').css('background', response.oa_back);
-                            jQuery('#base-url').attr('value', document.querySelector('#base-url').value + '/preview/' + response.oa_id)
-                            // jQuery('#url_verify').attr('href', document.querySelector('#base-url').value + '/preview/' + response.oa_id);
+                            jQuery('#base-url').attr('value', window.location.host + '/preview/' + response.oa_id )
+                            const urlEncode = encodeURIComponent( window.location.host + '/preview/' + response.oa_id );
+                            jQuery('#url_verify').attr('href', jQuery('#url_verify').attr('href')+urlEncode );
                         }
                     });
                 });
@@ -495,7 +496,7 @@
 
             // op-text click
             let opText = document.getElementsByClassName('op-text')
-            for(let i = 0; i < opText.length; i++){         
+            for(let i = 0; i < opText.length; i++){
                 opText[i].addEventListener('click', function(e){
 
                     e.preventDefault()
@@ -580,7 +581,7 @@
                 console.log(pastedData)
             }, false)
         </script>
-        
+
     @show
 </body>
 </html>

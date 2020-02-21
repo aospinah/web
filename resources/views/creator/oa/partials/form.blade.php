@@ -4,7 +4,7 @@
 		{{ Form::label('oa_title', 'Nombre') }}
 		{{ Form::text('oa_title', null, ['class' => 'form-control']) }}
 	</div>
-	
+
 	<div class="form-group st2">
 		{{ Form::label('oa_tax_id', 'Taxonomia') }}
 		<div class="tooltip"><span>?</span>
@@ -12,7 +12,7 @@
 		</div>
 		{{ Form::select('oa_tax_id', $taxs, null, ['placeholder' => 'Selecciona Taxonomia...', 'class' => 'form-control', 'data_route' => route('gettopics', ''), 'id' => 'oa_tax_id']) }}
 	</div>
-	
+
 	<div class="form-group st2">
 		{{ Form::label('oa_top_id', 'Tema') }}
 		{{ Form::select('oa_top_id', $tops, null, ['placeholder' => 'Selecciona Tema...', 'class' => 'form-control', 'data_route' => route('getobjective', ''), 'id' => 'oa_top_id']) }}
@@ -21,14 +21,14 @@
 		{{ Form::label('oa_top_text', 'Objetivo Educativo') }}
 		{{ Form::textarea('oa_top_text', null, ['class' => 'form-control mt-2', 'id' => 'obj_topic']) }}
 	</div>
-	
-	
-	
+
+
+
 	<div class="form-group st4">
 		{{ Form::label('oa_tar_id', 'Población Objetivo') }}
 		{{ Form::select('oa_tar_id', $tars, null, ['placeholder' => 'Selecciona Población...', 'class' => 'form-control']) }}
 	</div>
-	
+
 	<div class="form-group st5">
 		{{-- {{ Form::label('oa_path', 'Ubicación') }} --}}
 		{{ Form::hidden('oa_path', 'path', ['class' => 'form-control']) }}
@@ -131,7 +131,7 @@
 	<h1>Visualización y Verificación</h1>
 	<div style="position: relative;">
 		<input type="hidden" id="base-url" value="{{ url('/') }}">
-		<a href="https://www.tawdis.net/" id="url_verify" target="_blank" class="btn btn-success" style="position: absolute; top: 1px; right: 1px;">Verificar</a>
+		<a href="http://accessmonitor.acessibilidade.gov.pt/amp/results/" id="url_verify" target="_blank" class="btn btn-success" style="position: absolute; top: 1px; right: 1px;">Verificar</a>
 		<div class="preview" style="border: 1px solid #000; border-radius: 5px; padding: 15px; margin-bottom: 20px;"></div>
 	</div>
 </div>
