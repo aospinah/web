@@ -14,7 +14,7 @@ use Auth;
 class OaController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except('preview');
     }
     /**
      * Display a listing of the resource.
@@ -26,6 +26,13 @@ class OaController extends Controller
         //
         // $oas = new Oa();
         // $oas->all();
+        $user = auth()->user();
+        if( $user->user_slug === 'superadmin'){
+            $oas = Oa::all();
+            $myOas = Oa::where('oa_user_id', Auth::user()->user_id)->get();
+            return view('admin.oa.index', compact('oas', 'myOas'));
+        }
+
         $oas = Oa::where('oa_user_id', Auth::user()->user_id)->get();
 
         return view('creator.oa.index', compact('oas'));
@@ -51,7 +58,7 @@ class OaController extends Controller
         foreach($targets as $tar):
             $tars[$tar->tar_id] = $tar->tar_name . ' ' . $tar->tar_description;
         endforeach;
-        
+
         return view('creator.oa.create', compact('taxs', 'tars', 'taxonomies', 'tops'));
     }
 
@@ -63,7 +70,6 @@ class OaController extends Controller
      */
     public function store(Request $request)
     {
-
         $oa = Oa::create($request->all());
 
         return redirect()->route('oas.edit', $oa)->with('info', 'Oa creado!');
@@ -77,7 +83,11 @@ class OaController extends Controller
      */
     public function show(Oa $oa)
     {
-        //
+        $user = auth()->user();
+        if( $user->user_slug === 'superadmin'){
+            $oaAccess = json_decode($oa->oa_access);
+            return view('admin.oa.show', compact('oa', 'oaAccess'));
+        }
         return view('creator.oa.show', compact('oa'));
     }
 
@@ -109,7 +119,7 @@ class OaController extends Controller
         foreach($topic_list as $tl):
             $tops[$tl->top_id] = $tl->top_name . ' (' . $tl->top_grade . ')';
         endforeach;
-        
+
         return view('creator.oa.edit', compact('taxs', 'tars', 'taxonomies', 'oa', 'target_act', 'tops', 'topic_act'));
     }
 
@@ -122,6 +132,7 @@ class OaController extends Controller
      */
     public function update(Request $request, Oa $oa)
     {
+        // return response()->json( $request->all() );
         $oa->update($request->all());
         if(request()->ajax()){
             return response()->json($oa);

@@ -31,7 +31,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Laravel') }} --}}
-                    Macrea
+                    <img src="{{ asset('img/logoMenu.png') }}" style="width: 150px;" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -55,17 +55,28 @@
                                 @endif
                             </li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarOa" href="{{ route('oas.index') }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>{{ __('OAs') }}</a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarOa">
-                                    <a href="{{ route('oas.index') }}" class="dropdown-item">
-                                        {{ __('Ver OAs') }}
-                                    </a>
-                                    <a href="{{ route('oas.create') }}" class="dropdown-item">
-                                        {{ __('Crear OA') }}
-                                    </a>
-                                </div>
-                            </li>
+                            @if( Auth::user()->user_slug === 'superadmin' )
+                                <li class="nav-item">
+                                    <a href="{{ route('users.index') }}" class="nav-link">{{ __('Usuarios') }}</a>
+                                </li>
+                            @endif
+                            @if( Auth::user()->user_slug === 'superadmin' )
+                                <li class="nav-item dropdown">
+                                    <a href="{{ route('oas.index') }}" class="nav-link">{{ __('OAs') }}</a>
+                                </li>
+                            @else
+                                <li class="nav-item dropdown">
+                                    <a id="navbarOa" href="{{ route('oas.index') }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>{{ __('OAs') }}</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarOa">
+                                        <a href="{{ route('oas.index') }}" class="dropdown-item">
+                                            {{ __('Ver OAs') }}
+                                        </a>
+                                        <a href="{{ route('oas.create') }}" class="dropdown-item">
+                                            {{ __('Crear OA') }}
+                                        </a>
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->user_name }} <span class="caret"></span>
@@ -363,15 +374,70 @@
                         },
                         beforeSend: function(){
                             console.log('Before');
+                            jQuery('#all-res-access').removeClass('d-none');
+                            jQuery('#result-access-load').removeClass('d-none');
+                            jQuery('#result-access').addClass('d-none');
                         },
                         success: function(response){
                             jQuery('.preview').html(response.oa_description);
                             jQuery('.preview .edit-text').attr('contenteditable', 'false');
                             jQuery('.preview .btns-options').remove();
                             jQuery('.preview').css('background', response.oa_back);
-                            jQuery('#base-url').attr('value', window.location.host + '/preview/' + response.oa_id )
-                            const urlEncode = encodeURIComponent( window.location.host + '/preview/' + response.oa_id );
+                            jQuery('#base-url').attr('value', window.location.host + '/aleja/preview/' + response.oa_id )
+                            const urlEncode = encodeURIComponent( window.location.host + '/aleja/preview/' + response.oa_id );
+                            // const urlEncode = 'http://gaia.manizales.unal.edu.co/aleja/preview/16';
                             jQuery('#url_verify').attr('href', jQuery('#url_verify').attr('href')+urlEncode );
+
+                            const idOa = response.oa_id;
+
+                            jQuery.ajax({
+                                // url: 'https://andressalazarmarin.github.io/api-aleja/example.json',
+                                // url: 'http://localhost:8080/sis_aleja/api-aleja/example.json',
+                                url: 'https://wave.webaim.org/api/request?key=Dn9ZEYFm1532&url=http://gaia.manizales.unal.edu.co/aleja/preview/'+idOa,
+                                type: 'get',
+                                beforeSend: function(){
+                                    // jQuery('#all-res-access').removeClass('d-none');
+                                },
+                                success: function(response){
+                                    const data = response;
+                                    if( data.status.success ){
+                                        const totalElemnts = data.statistics.totalelements;
+                                        const countErrors = data.categories.error.count;
+                                        const promErrors = Math.floor( ( (totalElemnts - countErrors) / totalElemnts) * 50 );
+                                        const countAlerts = data.categories.alert.count;
+                                        const promAlerts = Math.floor( ( (totalElemnts - countAlerts) / totalElemnts) * 30 );
+                                        const countFeatures = data.categories.feature.count;
+                                        const promFeatures = Math.floor( ( (totalElemnts - countFeatures) / totalElemnts) * 20 );
+                                        jQuery('#perc-errors').html(countErrors);
+                                        jQuery('#perc-alerts').html(countAlerts);
+                                        jQuery('#perc-features').html(countFeatures);
+                                        let totalPerc = promErrors + promAlerts + promFeatures;
+                                        jQuery('#perc-total').html(totalPerc + '%');
+                                        jQuery('#result-access').removeClass('d-none');
+                                        jQuery('#result-access-load').addClass('d-none');
+                                        jQuery.ajax({
+                                            url: 'http://gaia.manizales.unal.edu.co/aleja/'+idOa,
+                                            type: 'put',
+                                            data: {
+                                                oa_access: JSON.stringify(data),
+                                                oa_access_per: totalPerc
+                                            },
+                                            headers:{
+                                                'X-CSRF-TOKEN': token
+                                            },
+                                            beforeSend: function(){
+                                            },
+                                            success: function(response){
+                                                console.log(response);
+                                            }
+                                        });
+                                        return true;
+                                    }
+                                    jQuery('#result-false').html('Error al evaluar el OA');
+                                    jQuery('#icon-result-false').attr('class', 'fa fa-2x fa-times');
+                                    // jQuery('.preview').html(response);
+                                }
+                            });
                         }
                     });
                 });

@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->user_email;
     }
+
+    public function oas()
+    {
+        return $this->hasMany('App\Oa', 'oa_user_id', 'user_id');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'user_slug';
+    }
 }

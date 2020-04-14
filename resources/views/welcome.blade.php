@@ -7,16 +7,12 @@
                 <img src="{{ asset('img/img1.png') }}" alt="">
             </div>
         </div>
-        <div class="row cont_info_sis mb-4">
-            <div class="col-6">
-                <h1 class="text-center title_msg">MACREA<br>¡Crea objetos de aprendizaje accesibles sin ser experto!</h1>
+        <div class="row cont_info_sis mb-4 justify-content-center">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                <h1 class="text-center title_msg">¡Crea objetos de aprendizaje accesibles sin ser experto!</h1>
             </div>
-            <div class="col-6"></div>
         </div>
-        <div class="row cont_call_action">
-            <div class="col-6">
-                <div class="cont_call_action_img"></div>
-            </div>
+        <div class="row cont_call_action justify-content-center">
             <div class="col-6 d-flex flex-column justify-content-center align-items-center cont_call_action_a">
                 {{-- Ya podrás construir tus recursos educativos accesibles sin necesidad de ser un experto ni en temas de educación ni en temas de recursos tecnologicos inscribete y sigue los pasos --}}
                 <div>Podrás construir tus recursos educativos accesibles  ni en temas de educación ni en temas de recursos tecnologicos

@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware('isSuper');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('admin.creator.index', compact('users'));
     }
 
     /**
@@ -24,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.creator.create');
     }
 
     /**
@@ -46,7 +51,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('admin.creator.show', compact('user'));
     }
 
     /**
@@ -57,7 +62,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('admin.creator.edit', compact('user'));
     }
 
     /**
@@ -69,7 +74,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user = User::find($user->user_id);
+        $arrayUpdate = $request->all();
+
+        if( $request->input('user_password') !== null ) {
+            $arrayUpdate['user_password'] = Hash::make( $request->input('user_password') );
+        }else{
+            unset($arrayUpdate['user_password']);
+        }
+
+        $user->update( $arrayUpdate );
+        return back()->with(['success' => 'Usuario actualizado!']);
     }
 
     /**

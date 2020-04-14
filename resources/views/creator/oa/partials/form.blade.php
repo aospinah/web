@@ -6,11 +6,11 @@
 	</div>
 
 	<div class="form-group st2">
-		{{ Form::label('oa_tax_id', 'Taxonomia') }}
+		{{ Form::label('oa_tax_id', 'Área fundamental') }}
 		<div class="tooltip"><span>?</span>
 			<span class="tooltiptext">Asignatura / Materia</span>
 		</div>
-		{{ Form::select('oa_tax_id', $taxs, null, ['placeholder' => 'Selecciona Taxonomia...', 'class' => 'form-control', 'data_route' => route('gettopics', ''), 'id' => 'oa_tax_id']) }}
+		{{ Form::select('oa_tax_id', $taxs, null, ['placeholder' => 'Selecciona Área fundamental...', 'class' => 'form-control', 'data_route' => route('gettopics', ''), 'id' => 'oa_tax_id']) }}
 	</div>
 
 	<div class="form-group st2">
@@ -133,6 +133,46 @@
 		<input type="hidden" id="base-url" value="{{ url('/') }}">
 		<a href="http://accessmonitor.acessibilidade.gov.pt/amp/results/" id="url_verify" target="_blank" class="btn btn-success" style="position: absolute; top: 1px; right: 1px;">Verificar</a>
 		<div class="preview" style="border: 1px solid #000; border-radius: 5px; padding: 15px; margin-bottom: 20px;"></div>
+		<div class="container d-none" id="all-res-access">
+	        <div class="row">
+	            <div class="col-12" id="result-access-load">
+	                <div class="text-center alert alert-dark" role="alert">
+	                    <i class="fa fa-2x fa-spinner fa-spin" id="icon-result-false"></i>
+	                    <h5 id="result-false">Calculando accesibilidad</h5>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="row d-none" id="result-access">
+	            <div class="col-4">
+	                <div class="text-center alert alert-danger" role="alert">
+	                	<i class="fa fa-2x fa-exclamation-circle"></i>
+	                    <span class="fa-2x" id="perc-errors"></span>
+	                    <h5>Errores</h5>
+	                </div>
+	            </div>
+	            <div class="col-4">
+	                <div class="text-center alert alert-warning" role="alert">
+	                	<i class="fa fa-2x fa-exclamation-triangle"></i>
+	                    <span class="fa-2x" id="perc-alerts"></span>
+	                    <h5>Advertencias</h5>
+	                </div>
+	            </div>
+	            <div class="col-4">
+	                <div class="text-center alert alert-success" role="alert">
+	                	<i class="fa fa-2x fa-exclamation"></i>
+	                    <span class="fa-2x" id="perc-features"></span>
+	                    <h5>Sugerencias</h5>
+	                </div>
+	            </div>
+	            <div class="col-12">
+	            	<div class="text-center alert alert-primary" role="alert">
+	                	<i class="fa fa-2x fa-check"></i>
+	                    <span class="fa-2x" id="perc-total"></span>
+	                    <h5>Accesible</h5>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </div>
 <div class="tab">
