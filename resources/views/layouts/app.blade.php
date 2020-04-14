@@ -416,7 +416,7 @@
                                         jQuery('#result-access').removeClass('d-none');
                                         jQuery('#result-access-load').addClass('d-none');
                                         jQuery.ajax({
-                                            url: 'http://gaia.manizales.unal.edu.co/aleja/'+idOa,
+                                            url: 'http://gaia.manizales.unal.edu.co/aleja/oas/'+idOa,
                                             type: 'put',
                                             data: {
                                                 oa_access: JSON.stringify(data),
